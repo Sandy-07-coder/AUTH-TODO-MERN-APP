@@ -16,8 +16,15 @@ const port = process.env.PORT || 5000;
 app.use(express.json());
 
 app.use(cors({
-  origin: process.env.FRONT_END_URL,
-  credentials: true               
+  origin: [
+    process.env.FRONT_END_URL,
+    "http://localhost:5173", // For development
+    "https://localhost:5173", // For local HTTPS
+  ],
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'Cookie'],
+  exposedHeaders: ['Set-Cookie']
 }));
 app.use(cookieParser());
 app.use('/auth', authRoute);
